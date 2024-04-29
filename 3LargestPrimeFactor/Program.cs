@@ -8,34 +8,35 @@
         Console.WriteLine($"{p}");
     }
 
-    public static long LargestPrimeFactor(long n)
+    public static long LargestPrimeFactor(long number)
     {
-        long lastPrimeFactor = 0;
+        long largestPrime = 1;
 
-        for (long i = 2; i < n; i++)
+        // Remove all factors of 2
+        while (number % 2 == 0)
         {
-            if (IsPrime(i) && n % i == 0)
+            largestPrime = 2;
+            number /= 2;
+        }
+
+        // After removing factors of 2, we only need to check odd numbers
+        for (long i = 3; i <= Math.Sqrt(number); i += 2)
+        {
+            while (number % i == 0)
             {
-                lastPrimeFactor = i;
-                Console.WriteLine(i + " is a prime factor of " + n);
+                largestPrime = i;
+                number /= i;
             }
         }
 
-        return lastPrimeFactor;
-        // var primeFactors = new List<int>();
+        // If the remaining number is a prime greater than 2
+        if (number > 2)
+            largestPrime = number;
 
-        // var prime = NextPrime(0);
-        // while (prime <= n) {
-        //             Console.WriteLine($"{prime}");
-
-        //     if (n % prime == 0) {
-        //         primeFactors.Add(prime);
-        //     }
-        //     prime = NextPrime(prime);
-        // }
-
-        // return primeFactors.Last();
+        return largestPrime;
     }
+
+    // the following methods are for reference and for fun
 
     public static int NextPrime(int n)
     {
